@@ -34,8 +34,18 @@ jobs:
           username: ${{ secrets.SSH_USER }} # Usuario SSH
           key: ${{ secrets.SSH_KEY }} # Clave privada SSH
           script: |
-            cd /var/www/essam-frontend               # Carpeta de despliegue
-            git pull origin master             # Actualizar el código
-            npm install --production         # Instalar dependencias
-            npm run build                    # Construir el proyecto (si es necesario)
-            pm2 restart essam-frontend               # Reiniciar la aplicación con PM2
+            cd /var/www/essam-frontend
+
+            # Remove or stash the untracked file
+            rm -f package-lock.json  # Option 1: Remove the file
+            # git stash  # Option 2: Stash the file
+
+            # Pull the latest changes
+            git pull origin master
+
+            # Reinstall dependencies and rebuild
+            npm install --production
+            npm run build
+
+            # Restart the application
+            pm2 restart essam-frontend
