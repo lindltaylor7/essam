@@ -34,8 +34,8 @@ jobs:
           username: ${{ secrets.SSH_USER }} # Usuario SSH
           key: ${{ secrets.SSH_KEY }} # Clave privada SSH
           script: |
-            cd /var/www/mi-app               # Carpeta de despliegue
-            git pull origin main             # Actualizar el código
+            cd /var/www/essam-frontend               # Carpeta de despliegue
+            git pull origin master             # Actualizar el código
             npm install --production         # Instalar dependencias
             npm run build                    # Construir el proyecto (si es necesario)
-            pm2 restart mi-app               # Reiniciar la aplicación con PM2
+            pm2 restart essam-frontend               # Reiniciar la aplicación con PM2
