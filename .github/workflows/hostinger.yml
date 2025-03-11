@@ -46,6 +46,3 @@ jobs:
             # Reinstall dependencies and rebuild
             npm install --production
             npm run build
-
-            # Restart the application
-            pm2 restart essam-frontend
