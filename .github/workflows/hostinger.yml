@@ -49,4 +49,4 @@ jobs:
             npm run build
 
             # Iniciar o reiniciar la aplicación con PM2
-            pm2 restart essam-frontend --update-env
+            pm2 restart next-app --update-env
