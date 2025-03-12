@@ -22,7 +22,7 @@ export default function Home() {
           <form onSubmit={handleSubmit(onSubmit)} className="rounded p-5 bg-zinc-800 flex flex-col w-full" >
             <input type="text" className="p-2 my-2 bg-zinc-500 rounded" placeholder="Email" {...register("email")}/>
             <input type="password" className="p-2 my-2 bg-zinc-500 rounded" placeholder="Password" {...register("password")}/>
-            <input type="submit" className="bg-[#3B5998] text-white px-4 py-2 mt-4 rounded-md" value="Ingresar"/>
+            <input type="submit" className="bg-[#3B5998] text-white px-4 py-2 mt-4 rounded-md" value="Ingresar al sistema"/>
           </form>
       </main>
     </div>
