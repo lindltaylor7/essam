@@ -47,3 +47,4 @@ jobs:
             npm install 
             npm install @tailwindcss/postcss tailwindcss postcss autoprefixer
             npm run build
+            npm run start
