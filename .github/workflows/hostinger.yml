@@ -44,10 +44,9 @@ jobs:
             git pull origin master
 
             # Reinstall dependencies and rebuild
-            rm -rf .next
             npm install 
             npm install @tailwindcss/postcss tailwindcss postcss autoprefixer
             npm run build
 
             # Iniciar o reiniciar la aplicación con PM2
-            pm2 restart essam-frontend --update-env || pm2 start npm --name "essam-frontend" -- start
+            pm2 restart essam-frontend --update-env
