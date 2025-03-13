@@ -11,7 +11,7 @@ export default function Register(){
   const onSubmit = async(data) => {
     try {
       // Enviar los datos del formulario al servidor en el puerto 4000
-      const response = await axios.post('http://essam.fun:4000/api/users', data);
+      const response = await axios.post('https://essam.fun/api/users', data);
       
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 200) {
