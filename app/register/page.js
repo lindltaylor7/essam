@@ -14,7 +14,7 @@ export default function Register(){
       const response = await axios.post('https://essam.fun/api/users', data);
       
       // Si la respuesta es exitosa, redirigir a /organizations
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert('Usuario registrado OK.');
       }
     } catch (error) {
