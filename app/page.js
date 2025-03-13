@@ -2,14 +2,26 @@
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter()
   const { handleSubmit, register } = useForm()
 
-  const onSubmit = (data) => {
-    console.log(data);
-    router.push('/organizations')
+  const onSubmit = async(data) => {
+    try {
+      // Enviar los datos del formulario al servidor en el puerto 4000
+      const response = await axios.post('http://localhost:4000/login', data);
+      
+      // Si la respuesta es exitosa, redirigir a /organizations
+      if (response.status === 200) {
+        router.push('/organizations');
+      }
+    } catch (error) {
+      // Manejar errores (por ejemplo, credenciales incorrectas)
+      console.error('Error al enviar los datos:', error);
+      alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+    }
   }
 
   return (
