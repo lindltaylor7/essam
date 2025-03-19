@@ -38,7 +38,6 @@ jobs:
 
             # Remove or stash the untracked file
             rm -f package-lock.json
-            rm -f package.json 
 
             # Pull the latest changes
             git pull origin master
