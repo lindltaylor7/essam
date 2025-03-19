@@ -15,7 +15,7 @@ export default function Home() {
   const onSubmit = async(data) => {
     try {
       // Enviar los datos del formulario al servidor en el puerto 4000
-      const response = await axios.post('http://localhost:4000/api/login', data);
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/login', data);
       
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 200) {
