@@ -37,8 +37,8 @@ jobs:
             cd /var/www/essam-frontend
 
             # Remove or stash the untracked file
-            rm -f package-lock.json  # Option 1: Remove the file
-            # git stash  # Option 2: Stash the file
+            rm -f package-lock.json
+            rm -f package.json 
 
             # Pull the latest changes
             git pull origin master
