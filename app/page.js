@@ -7,7 +7,7 @@ import { useAppAuth } from "./context";
 
 export default function Home() {
 
-  const {user, setUser, setIsAuthenticated } = useAppAuth()
+  const {user, setUser, setIsAuthenticated, isAuthenticated } = useAppAuth()
 
   const router = useRouter()
   const { handleSubmit, register } = useForm()
@@ -20,16 +20,28 @@ export default function Home() {
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
-        setUser(response.data.user);
         setIsAuthenticated(true)
-
-        router.push('/organizations');
+        setUser(response.data.user)
       }
     } catch (error) {
       // Manejar errores (por ejemplo, credenciales incorrectas)
       console.error('Error al enviar los datos:', error);
       alert(error.response.data.message);
     }
+  }
+
+
+  if(isAuthenticated){
+    return (
+      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+          <h1 className="text-3xl sm:text-4xl text-center sm:text-left">
+            Bienvenido {user?.name}
+          </h1>
+          <p>Rol: {user?.role[0]?.name}</p>
+        </main>
+      </div>
+    );
   }
 
   return (

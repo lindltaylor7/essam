@@ -3,13 +3,19 @@
 import { useForm } from "react-hook-form";
 import axiosInstance from "../utils/axiosInstance";
 import { useEffect, useState } from "react";
-
+import PermissionsModal from "../components/PermissionsModal";
 
 export default function Roles(){
 
     const { handleSubmit, register, reset } = useForm()
 
     const [roles, setRoles] = useState([])
+
+    const [permissions, setPermissions] = useState([])
+
+    const [selectedRole, setSelectedRole] = useState({})
+
+    const [showModal, setShowModal] = useState(false)
 
     const [sideJob, setSideJob] = useState(0)
 
@@ -69,6 +75,14 @@ export default function Roles(){
           console.error('Error al obtener los roles:', error);
         })
 
+        axiosInstance.get('/permissions')
+        .then(response => {
+          setPermissions(response.data);
+        })
+        .catch(error => {
+          console.error('Error al obtener los permisos:', error);
+        })
+
         axiosInstance.get('/cafes')
         .then(response => {
           setCafes(response.data);
@@ -93,6 +107,15 @@ export default function Roles(){
           setSelectableSides(cafes)
         }
       };
+
+      const handleModalPermissions = (role) => {
+        setSelectedRole(role);
+        setShowModal(true)
+      }
+
+      const closeModal = () => {
+        setShowModal(false)
+      }
   
 
     return(
@@ -157,7 +180,7 @@ export default function Roles(){
                     {role.status?'Activa':'Inactiva'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Permisos</button>
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => handleModalPermissions(role)}>Permisos</button>
                     <button className="bg-green-500 text-white px-4 py-2 rounded-md">Editar</button>
                     <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={deleteRole(role._id)}>Eliminar</button>
                     </td>
@@ -166,6 +189,7 @@ export default function Roles(){
           </tbody>
         </table>
       </main>
+      <PermissionsModal active={showModal} onClose={closeModal} role={selectedRole} permissions={permissions}/>
     </div>
     );
 }

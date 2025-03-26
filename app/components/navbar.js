@@ -5,22 +5,25 @@ import { useState } from "react";
 import { useAppAuth } from "../context";
 import { useRouter } from "next/navigation";
 import axiosInstance from "../utils/axiosInstance";
-import Menu from "./menu";
+import Menu from "./menu.jsx";
 
 export default function Navbar() {
 
     const router = useRouter();
 
     const logOut = () => {
+      console.log('logOut');
         axiosInstance.get('/logout');
         setIsAuthenticated(false);
         setUser({});
         router.push('/')
     }
 
-    const { user, setUser, isAuthenticated, setIsAuthenticated } = useAppAuth();
+    const { user, setUser, isAuthenticated, setIsAuthenticated, handleLogout } = useAppAuth();
 
     const [isVisible, setIsVisible] = useState(false);
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (<nav className="bg-gray-800">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -45,7 +48,7 @@ export default function Navbar() {
                 <img className="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                { isAuthenticated? <Menu permissions={user.permissions}/>: null }
+                { isAuthenticated? <Menu user={user}/>: null }
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -60,7 +63,7 @@ export default function Navbar() {
             
               <div className="relative ml-3" style={{ display: isAuthenticated ? 'block' : 'none' }}>
                 <div>
-                  <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => setIsVisible(!isVisible)}>
+                  <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                     <span className="absolute -inset-1.5"></span>
                     <span className="sr-only">Open user menu</span>
                     <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
@@ -68,10 +71,10 @@ export default function Navbar() {
                 </div>
       
                 
-                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1" style={{ display: isVisible ? 'block' : 'none' }} >
+                <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1" style={{ display: isMenuOpen ? 'block' : 'none' }} onBlur={() => setIsMenuOpen(false)}>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</a>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</a>
-                  <p className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2" onClick={logOut}>Salir</p>
+                  <p className="block px-4 py-2 text-sm text-gray-700 cursor-pointer" role="menuitem" tabIndex="-1" id="user-menu-item-2" onClick={handleLogout}>Salir</p>
                 </div>
               </div>
             </div>

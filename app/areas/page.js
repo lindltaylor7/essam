@@ -67,9 +67,6 @@ export default function Areas(){
         .catch(error => {
           console.error('Error al obtener las sedes:', error);
         })
-
-
-
       }, [])
 
     return(

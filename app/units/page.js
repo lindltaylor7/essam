@@ -108,7 +108,7 @@ export default function Roles(){
                     {unit.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {unit.mine.name}
+                    {unit.mine?.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button className="bg-green-500 text-white px-4 py-2 rounded-md">Editar</button>

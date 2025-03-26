@@ -57,12 +57,12 @@ export default function Users(){
             // Si la respuesta es exitosa, redirigir a /organizations
             if (response.status === 204) {
               console.log(response);
-              setAreas(areas.filter(area => area._id !== id))
+              setUsers(users.filter(user => user._id !== id))
             }
           } catch (error) {
             // Manejar errores (por ejemplo, credenciales incorrectas)
             console.error('Error al enviar los datos:', error);
-            alert('Error al eliminar area.');
+            alert('Error al eliminar usuario.');
           }
       }
       }
@@ -114,8 +114,8 @@ export default function Users(){
       const selectRolesEntity = (e) =>{
       setEntityIdSelected(e.target.value)
        const {roles} = entities.find(entity => entity._id == e.target.value)
-       console.log(roles);
        setRolesEntity(roles)
+       console.log(roles);
       }
 
 
@@ -127,15 +127,15 @@ export default function Users(){
         </h1>
           <form onSubmit={handleSubmit(onSubmit)} className="rounded p-5 bg-zinc-800 flex flex-col w-full" >
             <div className="w-full">
-            <select className="p-2 my-2 bg-zinc-500 rounded text-white w-50" onChange={selectEntity}>
-                <option value={null}>Seleccione Entidad</option>
+            <select className="p-2 my-2 bg-zinc-500 rounded text-white w-[49%]" onChange={selectEntity}>
+                <option value={null}>Seleccione tipo de entidad</option>
                 <option value={1}>Areas</option>
                 <option value={2}>Cafeterias</option>
             </select> 
-            <select className="p-2 my-2 ms-2 bg-zinc-500 rounded text-white w-50" onChange={selectRolesEntity}>
-                <option value={null}>Seleccione </option>
+            <select className="p-2 my-2 ms-2 bg-zinc-500 rounded text-white w-[49%]" onChange={selectRolesEntity}>
+                <option value={null}>Seleccione entidad</option>
                 {entities.map(entity =>(
-                    <option key={entity._id} value={entity._id}>{entity.name}</option>
+                    <option key={entity._id} value={entity._id}>{entity.headquarter?entity.headquarter.businnes.name:entity.unit.mine.name} - {entity.headquarter?entity.headquarter.name:entity.unit.name}  - {entity.name}</option>
                 ))}
             </select>
             </div>
@@ -164,7 +164,13 @@ export default function Users(){
                 DNI
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Correo
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Entidad
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Cargo
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Opciones
@@ -181,7 +187,13 @@ export default function Users(){
                     {user.dni}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {user.credentials.email}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {user.entityType == 1? 'Area' : 'Cafeteria'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {user.role[0].name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <button className="bg-green-500 text-white px-4 py-2 rounded-md">Editar</button>
