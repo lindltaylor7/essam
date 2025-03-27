@@ -223,41 +223,64 @@ export default function Sales() {
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-3xl sm:text-4xl text-center sm:text-left">
-          Registro de Ventas
-        </h1>
+    <>
+      <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
+        Ventas
+      </h1>
 
-        <form
-          className="rounded p-5 bg-zinc-800 flex flex-col w-full"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="grid grid-cols-2 w-full">
-            <div className="px-1">
-              {currentDateTime}
-              <div className="w-full flex flex-row">
-                <input
-                  type="text"
-                  className="p-2 bg-zinc-500 rounded"
-                  placeholder="Dni del Comensal"
-                  onChange={(e) => setDinerDni(e.target.value)}
-                />
-                <button
-                  className="bg-green-500 text-white px-4 rounded-md"
-                  onClick={searchDiner}
-                >
-                  Buscar
-                </button>
-              </div>
-              <p>Nombre: {diner.name}</p>
-              <p>Unidad: {diner.unit?.name} </p>
-              <p>Cafetería: {user.entity?.name} </p>
-              <p>Empresa Cliente: {diner.businnesClient?.name}</p>
+      <form
+        className="bg-white rounded-lg p-6 space-y-4 max-w-full w-full mx-auto mb-4 shadow-md"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Columna izquierda */}
+          <div className="space-y-4">
+            <div className="text-sm text-gray-500">{currentDateTime}</div>
+
+            <div className="flex gap-2">
+              <input
+                type="text"
+                className="flex-1 p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Dni del Comensal"
+                onChange={(e) => setDinerDni(e.target.value)}
+              />
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-md transition-colors duration-200 shadow-sm"
+                onClick={searchDiner}
+                type="button"
+              >
+                Buscar
+              </button>
             </div>
-            <div className="flex flex-col">
+
+            <div className="space-y-2 text-sm">
+              <p className="font-medium text-gray-700">
+                Nombre: <span className="font-normal">{diner.name}</span>
+              </p>
+              <p className="font-medium text-gray-700">
+                Unidad: <span className="font-normal">{diner.unit?.name}</span>
+              </p>
+              <p className="font-medium text-gray-700">
+                Cafetería:{" "}
+                <span className="font-normal">{user.entity?.name}</span>
+              </p>
+              <p className="font-medium text-gray-700">
+                Empresa Cliente:{" "}
+                <span className="font-normal">
+                  {diner.businnesClient?.name}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          {/* Columna derecha */}
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-red-500 mb-1">
+                Servicio *
+              </label>
               <select
-                className="p-2 my-2 ms-2 bg-zinc-500 rounded text-white"
+                className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 onChange={handleService}
               >
                 <option value={null}>Seleccione un servicio</option>
@@ -267,99 +290,110 @@ export default function Sales() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-red-500 mb-1">
+                Tipo de pago *
+              </label>
               <select
-                className="p-2 my-2 ms-2 bg-zinc-500 rounded text-white"
+                className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 onChange={handlePaymentType}
               >
                 <option value={null}>Seleccione tipo de pago</option>
                 <option value="1">Crédito</option>
                 <option value="2">Efectivo</option>
               </select>
-
-              <p>COSTO: S./ {cost}</p>
-              <button
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
-                onClick={exportToExcel}
-              >
-                Reporte en Excel
-              </button>
             </div>
+
+            <p className="text-lg font-semibold text-gray-800">
+              COSTO: S./ {cost}
+            </p>
+
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors duration-200 shadow-sm w-full"
+              onClick={exportToExcel}
+              type="button"
+            >
+              Reporte en Excel
+            </button>
           </div>
-          <input
-            type="submit"
-            className="bg-[#3B5998] text-white px-4 py-2 mt-4 rounded-md w-full"
-            value="Registrar Venta"
-          />
-        </form>
-        <table className="min-w-full">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Cliente
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Fecha
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                DNI
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Comensal
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Servicio
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Opciones
-              </th>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2.5 px-4 rounded-md transition-colors duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+        >
+          Registrar Venta
+        </button>
+      </form>
+
+      <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden mt-6">
+        <thead className="bg-red-500">
+          <tr>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Cliente
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Fecha
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              DNI
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Comensal
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Servicio
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Total
+            </th>
+            <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Opciones
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {sales.map((sale) => (
+            <tr
+              key={sale._id}
+              className="hover:bg-gray-50 transition-colors duration-150"
+            >
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                {sale.bussinesClientName}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {sale.dateTime}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {sale.diner.dinerDni}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {sale.diner.dinerName}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {sale.service.serviceName}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                S./ {sale.price}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <button className="text-white bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm">
+                  Editar
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {sales.map((sale) => (
-              <tr key={sale._id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {sale.bussinesClientName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {sale.dateTime}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {sale.diner.dinerDni}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {sale.diner.dinerName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {sale.service.serviceName}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  S./ {sale.price}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md">
-                    Editar
-                  </button>
-                  {/* <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-md"
-                    onClick={deleteSale(sale._id)}
-                  >
-                    Eliminar
-                  </button> */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </main>
+          ))}
+        </tbody>
+      </table>
+
       <PermissionsModal
         active={showModal}
         onClose={closeModal}
         role={selectedRole}
         permissions={permissions}
       />
-    </div>
+    </>
   );
 }

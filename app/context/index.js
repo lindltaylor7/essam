@@ -4,7 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { createContext, useContext, useState, useEffect } from "react";
 import jwt from "jsonwebtoken"
 import axiosInstance from "../utils/axiosInstance";
-
+import LoadingScreen from "../components/LoadingScreen";
 
 const AuthContext = createContext();
 
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
    
     if (isAuthenticated === null) {
         if(pathname != '/'){
-            return <p>Cargando...</p>;
+            return <LoadingScreen/>;
         }
         // Previene el renderizado hasta verificar la autenticación
     }else if (isAuthenticated && pathname != '/') {

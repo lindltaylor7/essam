@@ -4,34 +4,32 @@ import { useForm } from "react-hook-form";
 import axiosInstance from "../utils/axiosInstance";
 import { useEffect, useState } from "react";
 
-export default function BusinnesClient() {
+export default function Roles() {
   const { handleSubmit, register, reset } = useForm();
 
   const [mines, setMines] = useState([]);
 
-  const [businessClients, setBusinessClients] = useState([]);
-
-  const [businnesContracts, setBusinnesContracts] = useState([]);
+  const [units, setUnits] = useState([]);
 
   const onSubmit = async (data) => {
     try {
       // Enviar los datos del formulario al servidor en el puerto 4000
-      const response = await axiosInstance.post("/businnes-clients", data);
+      const response = await axiosInstance.post("/units", data);
 
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 201) {
-        setBusinessClients([...businessClients, response.data]);
+        setUnits([...units, response.data]);
         console.log(response);
         reset();
       }
     } catch (error) {
       // Manejar errores (por ejemplo, credenciales incorrectas)
       console.error("Error al enviar los datos:", error);
-      alert("Error al registrar nueva empresa cliente.");
+      alert("Error al registrar nueva unidad.");
     }
   };
 
-  const deleteBusinnesClient = (id) => {
+  const deleteUnits = (id) => {
     return async () => {
       try {
         // Enviar los datos del formulario al servidor en el puerto 4000
@@ -61,18 +59,9 @@ export default function BusinnesClient() {
       });
 
     axiosInstance
-      .get("/businnes-clients")
+      .get("/units")
       .then((response) => {
-        setBusinessClients(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las minas:", error);
-      });
-
-    axiosInstance
-      .get("/businnes-contracts")
-      .then((response) => {
-        setBusinnesContracts(response.data);
+        setUnits(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener las minas:", error);
@@ -82,7 +71,7 @@ export default function BusinnesClient() {
   return (
     <>
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
-        Registro de Empresas Cliente
+        Registro de Unidades Mineras
       </h1>
 
       <form
@@ -97,32 +86,8 @@ export default function BusinnesClient() {
             <input
               type="text"
               className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="Nombre de la empresa"
+              placeholder="Nombre de la unidad minera"
               {...register("name", { required: true })}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              RUC *
-            </label>
-            <input
-              type="text"
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="Número de RUC"
-              {...register("ruc", { required: true })}
-            />
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Dirección
-            </label>
-            <input
-              type="text"
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              placeholder="Dirección completa"
-              {...register("address")}
             />
           </div>
 
@@ -142,42 +107,25 @@ export default function BusinnesClient() {
               ))}
             </select>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Empresa Contrato
-            </label>
-            <select
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              {...register("businnesContract")}
-            >
-              <option value="">Seleccione Empresa Contrato</option>
-              {businnesContracts.map((bc) => (
-                <option key={bc._id} value={bc._id}>
-                  {bc.name}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
 
         <button
           type="submit"
           className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 shadow-md mt-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
-          Registrar Empresa Cliente
+          Registrar Unidad
         </button>
       </form>
 
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-xl font-semibold text-gray-800">
-            Lista de Empresas Cliente
+            Lista de Unidades Mineras
           </h2>
           <div className="relative">
             <input
               type="text"
-              placeholder="Buscar empresa..."
+              placeholder="Buscar unidad..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
             />
             <svg
@@ -203,16 +151,7 @@ export default function BusinnesClient() {
                 Nombre
               </th>
               <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                RUC
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                Dirección
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Mina
-              </th>
-              <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                Empresa Contrato
               </th>
               <th className="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Opciones
@@ -220,25 +159,16 @@ export default function BusinnesClient() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {businessClients.map((bc) => (
+            {units.map((unit) => (
               <tr
-                key={bc._id}
+                key={unit._id}
                 className="hover:bg-gray-50 transition-colors duration-150"
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {bc.name}
+                  {unit.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {bc.ruc}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {bc.address}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {bc.mine?.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {bc.businnesContract?.name}
+                  {unit.mine?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 space-x-2">
                   <button className="text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm">
@@ -246,7 +176,7 @@ export default function BusinnesClient() {
                   </button>
                   <button
                     className="text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm"
-                    onClick={() => deleteBusinnesClient(bc._id)}
+                    onClick={() => deleteUnits(unit._id)}
                   >
                     Eliminar
                   </button>
