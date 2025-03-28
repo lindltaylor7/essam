@@ -7,8 +7,8 @@ import PermissionsModal from "../components/PermissionsModal";
 import { useAppAuth } from "../context";
 import { showErrorAlert, showSuccessAlert } from "../libs/swal";
 import { utils, writeFile } from "xlsx";
-/* import Ticket from "../components/Ticket";
-import { pdf } from "@react-pdf/renderer"; */
+/* import Ticket from "../components/Ticket"; */
+import { pdf } from "@react-pdf/renderer";
 
 export default function Sales() {
   const { user } = useAppAuth();
@@ -224,11 +224,11 @@ export default function Sales() {
     writeFile(wb, "reporte.xlsx");
   };
 
-  /*   const handleGeneratePDF = async (sale) => {
-    const blob = await pdf(<Ticket sale={sale} />).toBlob();
+  const handleGeneratePDF = async (sale) => {
+    const blob = await pdf(<h1>TEST</h1>).toBlob();
     const url = URL.createObjectURL(blob);
     window.open(url, "_blank");
-  }; */
+  };
 
   return (
     <>
