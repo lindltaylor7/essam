@@ -107,7 +107,9 @@ export default function Navbar({ switchSidebar }) {
                   <span className="absolute -inset-1.5"></span>
                   <span className="sr-only">Open user menu</span>
                   <div className="size-8 rounded-full flex items-center justify-center bg-red-600 hover:bg-red-700 transition-colors duration-200">
-                    <p className="text-white font-medium">{user?.name[0]}</p>
+                    <p className="text-white font-medium">
+                      {user?.name?.[0] || "?"}
+                    </p>
                   </div>
                 </button>
               </div>
