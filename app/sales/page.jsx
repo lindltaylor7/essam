@@ -7,7 +7,7 @@ import PermissionsModal from "../components/PermissionsModal";
 import { useAppAuth } from "../context";
 import { showErrorAlert, showSuccessAlert } from "../libs/swal";
 import { utils, writeFile } from "xlsx";
-/* import Ticket from "../components/Ticket"; */
+import Ticket from "../components/Ticket";
 import { pdf } from "@react-pdf/renderer";
 
 export default function Sales() {
@@ -226,7 +226,7 @@ export default function Sales() {
 
   const handleGeneratePDF = async (sale) => {
     if (typeof window !== "undefined") {
-      const blob = await pdf(<h1>TEST</h1>).toBlob();
+      const blob = await pdf(<Ticket sale={sale} />).toBlob();
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
     }
