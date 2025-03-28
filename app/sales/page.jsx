@@ -225,11 +225,12 @@ export default function Sales() {
   };
 
   const handleGeneratePDF = async (sale) => {
-    const blob = await pdf(<h1>TEST</h1>).toBlob();
-    const url = URL.createObjectURL(blob);
-    window.open(url, "_blank");
+    if (typeof window !== "undefined") {
+      const blob = await pdf(<h1>TEST</h1>).toBlob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
+    }
   };
-
   return (
     <>
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
@@ -389,7 +390,7 @@ export default function Sales() {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <button
                   className="text-white bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm mr-2"
-                  /* onClick={() => handleGeneratePDF(sale)} */
+                  onClick={() => handleGeneratePDF(sale)}
                 >
                   Ticket
                 </button>
