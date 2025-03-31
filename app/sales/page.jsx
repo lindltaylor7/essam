@@ -382,7 +382,7 @@ export default function Sales() {
                 {sale.diner.dinerName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {sale.service.serviceName}
+                {sale.service?.serviceName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                 S./ {sale.price}
