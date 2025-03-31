@@ -9,6 +9,7 @@ import { showErrorAlert, showSuccessAlert } from "../libs/swal";
 import { utils, writeFile } from "xlsx";
 import Ticket from "../components/Ticket";
 import { pdf } from "@react-pdf/renderer";
+import { DateTime } from "luxon";
 
 export default function Sales() {
   const { user } = useAppAuth();
@@ -231,6 +232,14 @@ export default function Sales() {
       window.open(url, "_blank");
     }
   };
+
+  const formatDate = (date) => {
+    const localDate = DateTime.fromISO(date).setZone("America/Lima");
+    const formattedDate = localDate.toFormat("dd-MM-yyyy HH:mm:ss");
+
+    return formattedDate;
+  };
+
   return (
     <>
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
@@ -373,7 +382,7 @@ export default function Sales() {
                 {sale.bussinesClientName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {sale.dateTime}
+                {formatDate(sale.dateTime)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {sale.diner.dinerDni}
