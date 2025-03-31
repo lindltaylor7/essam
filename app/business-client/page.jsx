@@ -226,7 +226,8 @@ export default function BusinnesClient() {
                 className="hover:bg-gray-50 transition-colors duration-150"
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {bc.name}
+                  <p>{bc.name}</p>
+                  <small>ID: {bc._id}</small>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {bc.ruc}

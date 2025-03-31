@@ -165,7 +165,8 @@ export default function Roles() {
                 className="hover:bg-gray-50 transition-colors duration-150"
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {unit.name}
+                  <p>{unit.name}</p>
+                  <small>ID: {unit._id}</small>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {unit.mine?.name}
