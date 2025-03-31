@@ -6,7 +6,7 @@ import { useAppAuth } from "../context";
 import { useRouter } from "next/navigation";
 import axiosInstance from "../utils/axiosInstance";
 import Menu from "./menu.jsx";
-import { FaBars } from "react-icons/fa6";
+import { FaBars, FaCheck } from "react-icons/fa6";
 
 export default function Navbar({ switchSidebar }) {
   const router = useRouter();
@@ -24,14 +24,20 @@ export default function Navbar({ switchSidebar }) {
 
   const [isVisible, setIsVisible] = useState(false);
 
+  const [navbarStatus, setNavbarStatus] = useState(false);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeSidebar = () => {
     switchSidebar();
   };
 
+  const handleNavbarResponsive = () => {
+    setNavbarStatus(!navbarStatus);
+  };
+
   return (
-    <nav className="bg-white mt-2 rounded mx-8 shadow-sm border border-gray-200">
+    <nav className="bg-white mt-2 rounded mx-4 shadow-sm border border-gray-200 sm:mx-8">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* Menú móvil */}
@@ -41,6 +47,7 @@ export default function Navbar({ switchSidebar }) {
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
               aria-controls="mobile-menu"
               aria-expanded="false"
+              onClick={handleNavbarResponsive}
             >
               <span className="absolute -inset-0.5"></span>
               <span className="sr-only">Open main menu</span>
@@ -78,11 +85,11 @@ export default function Navbar({ switchSidebar }) {
           </div>
 
           {/* Logo y menú principal */}
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex shrink-0 items-center">
+          <div className="sm:block flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex shrink-0 items-center ">
               <FaBars
                 onClick={closeSidebar}
-                className="text-zinc-600 hover:text-red-600 cursor-pointer transition-colors duration-200"
+                className="text-zinc-600 hover:text-red-600 cursor-pointer transition-colors duration-200 hidden sm:block"
               />
             </div>
             <div className="hidden sm:ml-6 sm:block"></div>
@@ -159,33 +166,29 @@ export default function Navbar({ switchSidebar }) {
       </div>
 
       {/* Menú móvil (desplegable) */}
-      <div className="sm:hidden" id="mobile-menu">
+      <div className={navbarStatus ? "sm:hidden" : "hidden"} id="mobile-menu">
         <div className="space-y-1 px-2 pt-2 pb-3">
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
-            aria-current="page"
+          <Link
+            href="/"
+            className="block"
+            onClick={() => setNavbarStatus(false)}
           >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
-          >
-            Team
-          </a>
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
-          >
-            Projects
-          </a>
-          <a
-            href="#"
-            className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200"
-          >
-            Calendar
-          </a>
+            <p className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200">
+              Home
+            </p>
+          </Link>
+          {user?.permissions?.map((permission) => (
+            <Link
+              href={`/${permission.url}`}
+              key={permission._id}
+              className="block"
+              onClick={() => setNavbarStatus(false)}
+            >
+              <p className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-200">
+                {permission.name}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

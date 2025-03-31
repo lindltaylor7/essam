@@ -25,32 +25,30 @@ function AuthenticatedLayout({ children }) {
 
   return (
     <>
-      <div className="flex flex-col w-full min-h-screen">
-        <div className="flex flex-1">
-          {(!isHomePage || isAuthenticated) && (
-            <div className="fixed inset-y-0 left-0">
-              <Sidebar sidebarStatus={sidebarStatus} />
-            </div>
-          )}
-          <main
-            className={`flex-1 ${
-              !isHomePage || isAuthenticated
-                ? sidebarStatus
-                  ? "ml-[16.6%]"
-                  : ""
+      <div className="flex flex-1">
+        {(!isHomePage || isAuthenticated) && (
+          <div className="fixed inset-y-0 left-0">
+            <Sidebar sidebarStatus={sidebarStatus} />
+          </div>
+        )}
+        <main
+          className={`flex-1 ${
+            !isHomePage || isAuthenticated
+              ? sidebarStatus
+                ? "ml-[16.6%]"
                 : ""
-            }`}
-          >
-            {(!isHomePage || isAuthenticated) && (
-              <Navbar switchSidebar={switchSidebar} />
-            )}
-            <div className="min-h-screen p-8 pb-20 gap-16 sm:p-8 font-[family-name:var(--font-geist-sans)] w-full">
-              <div className="gap-8 row-start-2 items-center sm:items-start">
-                {children}
-              </div>
+              : ""
+          }`}
+        >
+          {(!isHomePage || isAuthenticated) && (
+            <Navbar switchSidebar={switchSidebar} />
+          )}
+          <div className="min-h-screen p-8 pb-20 gap-16 sm:p-8 font-[family-name:var(--font-geist-sans)] w-full">
+            <div className="gap-8 row-start-2 items-center sm:items-start">
+              {children}
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
     </>
   );

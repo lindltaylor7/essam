@@ -57,6 +57,9 @@ export default function Sales() {
           dinerId: diner._id,
           dinerName: dinerName,
           dinerDni: diner.dni,
+          businnesClient: {
+            name: diner.businnesClient.name,
+          },
         },
         service: selectedService,
         cafe: user.entity,
@@ -308,6 +311,10 @@ export default function Sales() {
                 <span className="font-normal">
                   {diner.businnesClient?.name}
                 </span>
+              </p>
+              <p className="font-medium text-gray-700">
+                Codigo de Registro:{" "}
+                <span className="font-normal">{diner.registerCode}</span>
               </p>
             </div>
           </div>

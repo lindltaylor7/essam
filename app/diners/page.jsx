@@ -291,6 +291,20 @@ export default function Diners() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Codigo de Registro
+              </label>
+              <input
+                type="text"
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                placeholder="Nombre completo"
+                {...register("registerCode")}
+              />
+            </div>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"

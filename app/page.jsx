@@ -7,7 +7,7 @@ import { useAppAuth } from "./context";
 import Image from "next/image";
 
 export default function Home() {
-  const { user, setUser, setIsAuthenticated, isAuthenticated } = useAppAuth();
+  const { user, setUser, getUserData, isAuthenticated } = useAppAuth();
 
   const router = useRouter();
   const { handleSubmit, register } = useForm();
@@ -23,8 +23,7 @@ export default function Home() {
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        setIsAuthenticated(true);
-        setUser(response.data.user);
+        getUserData(response.data.user._id);
       }
     } catch (error) {
       // Manejar errores (por ejemplo, credenciales incorrectas)
