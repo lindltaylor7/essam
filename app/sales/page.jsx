@@ -24,6 +24,10 @@ export default function Sales() {
 
   const [dinerDni, setDinerDni] = useState("");
 
+  const [dinerName, setDinerName] = useState("");
+
+  const [services, setServices] = useState([]);
+
   const [diner, setDiner] = useState({});
 
   const [permissions, setPermissions] = useState([]);
@@ -49,7 +53,11 @@ export default function Sales() {
   const onSubmit = async () => {
     try {
       const sale = {
-        diner,
+        diner: {
+          dinerId: diner._id,
+          dinerName: dinerName,
+          dinerDni: diner.dni,
+        },
         service: selectedService,
         cafe: user.entity,
         price: cost,
@@ -101,8 +109,6 @@ export default function Sales() {
       second: "2-digit",
     });
     setCurrentDateTime(formattedDateTime);
-
-    console.log(user);
 
     axiosInstance
       .get("/sales")
@@ -159,6 +165,14 @@ export default function Sales() {
       });
   }, []);
 
+  useEffect(() => {
+    if (user && user.entityType && user.entityType == 2) {
+      const cafeSelected = cafes.find((cafe) => cafe._id == user.entity._id);
+      console.log(cafeSelected);
+      setServices(cafeSelected?.services);
+    }
+  }, [cafes]);
+
   const handleSelectChange = (event) => {
     setSelectedValue(event.target.value);
     if (event.target.value == 1) {
@@ -183,6 +197,7 @@ export default function Sales() {
       .get(`/diners/${dinerDni}`)
       .then((response) => {
         setDiner(response.data);
+        setDinerName(response.data.name);
       })
       .catch((error) => {
         alert("Comensal no encontrado");
@@ -193,7 +208,7 @@ export default function Sales() {
 
   const handleService = (e) => {
     const serviceId = e.target.value;
-    const serviceSelected = diner.unit?.cafes[0].services.find(
+    const serviceSelected = services.find(
       (service) => service._id === serviceId
     );
     setSelectedService(serviceSelected);
@@ -273,7 +288,13 @@ export default function Sales() {
 
             <div className="space-y-2 text-sm">
               <p className="font-medium text-gray-700">
-                Nombre: <span className="font-normal">{diner.name}</span>
+                <input
+                  type="text"
+                  className="flex-1 p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent w-full"
+                  placeholder="Nombre del Comensal"
+                  value={dinerName || ""}
+                  onChange={(e) => setDinerName(e.target.value)}
+                />
               </p>
               <p className="font-medium text-gray-700">
                 Unidad: <span className="font-normal">{diner.unit?.name}</span>
@@ -302,7 +323,7 @@ export default function Sales() {
                 onChange={handleService}
               >
                 <option value={null}>Seleccione un servicio</option>
-                {diner.unit?.cafes[0].services.map((service) => (
+                {services?.map((service) => (
                   <option key={service._id} value={service._id}>
                     {service.name}
                   </option>
@@ -329,7 +350,7 @@ export default function Sales() {
             </p>
 
             <button
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors duration-200 shadow-sm w-full"
+              className="bg-green-500 hover:bg-green-600 cursor-pointer text-white px-4 py-2 rounded-md transition-colors duration-200 shadow-sm w-full"
               onClick={exportToExcel}
               type="button"
             >
@@ -385,10 +406,10 @@ export default function Sales() {
                 {formatDate(sale.dateTime)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {sale.diner.dinerDni}
+                {sale.diner?.dinerDni}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {sale.diner.dinerName}
+                {sale.diner?.dinerName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {sale.service?.serviceName}

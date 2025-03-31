@@ -1,13 +1,26 @@
 import { useForm } from "react-hook-form";
 import axiosInstance from "../utils/axiosInstance";
+import { useEffect } from "react";
 
 export default function PermissionsModal({
   active = false,
   onClose,
   role,
   permissions,
+  selectedPermissions,
 }) {
-  const { register, watch, getValues } = useForm();
+  const { register, watch, getValues, setValue } = useForm();
+
+  useEffect(() => {
+    setValue("pickedPermissions", []);
+
+    selectedPermissions?.forEach((permission) => {
+      setValue("pickedPermissions", [
+        ...getValues("pickedPermissions"),
+        permission,
+      ]);
+    });
+  }, [selectedPermissions, setValue, getValues]);
 
   const checkboxValues = watch("pickedPermissions");
 
@@ -43,7 +56,6 @@ export default function PermissionsModal({
         className="fixed inset-0 bg-gray-500/75 transition-opacity"
         aria-hidden="true"
       ></div>
-
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">

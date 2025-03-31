@@ -9,6 +9,7 @@ export default function Roles() {
   const { handleSubmit, register, reset } = useForm();
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
+  const [selectedPermissions, setSelectedPermissions] = useState([]);
   const [selectedRole, setSelectedRole] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [selectableSides, setSelectableSides] = useState([]);
@@ -74,6 +75,7 @@ export default function Roles() {
   const handleModalPermissions = (role) => {
     setSelectedRole(role);
     setShowModal(true);
+    setSelectedPermissions(role.permissions);
   };
 
   const closeModal = () => setShowModal(false);
@@ -272,6 +274,7 @@ export default function Roles() {
         onClose={closeModal}
         role={selectedRole}
         permissions={permissions}
+        selectedPermissions={selectedPermissions}
       />
     </div>
   );
