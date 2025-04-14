@@ -145,7 +145,7 @@ export default function Home() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
-            <div className="rounded-md shadow-sm space-y-4">
+            <div className="rounded-md space-y-4">
               <div>
                 <label
                   htmlFor="email"

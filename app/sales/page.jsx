@@ -10,6 +10,7 @@ import { utils, writeFile } from "xlsx";
 import Ticket from "../components/Ticket";
 import { pdf } from "@react-pdf/renderer";
 import { DateTime } from "luxon";
+import { FaPrint } from "react-icons/fa6";
 
 export default function Sales() {
   const { user } = useAppAuth();
@@ -271,8 +272,16 @@ export default function Sales() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Columna izquierda */}
           <div className="space-y-4">
-            <div className="text-sm text-gray-500">{currentDateTime}</div>
-
+            <label className="block text-sm font-medium text-red-500 mb-1">
+              Fecha *
+            </label>
+            <p className="font-medium text-gray-700">
+              <input
+                type="date"
+                className="flex-1 p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent w-full"
+                placeholder="Fecha"
+              />
+            </p>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -337,21 +346,56 @@ export default function Sales() {
                 ))}
               </select>
             </div>
-
+            <div className="">
+              <p className="font-medium text-gray-700">
+                <input
+                  type="number"
+                  className="flex-1 p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent w-full"
+                  placeholder="Cantidad"
+                />
+              </p>
+            </div>
             <div>
               <label className="block text-sm font-medium text-red-500 mb-1">
                 Tipo de pago *
               </label>
-              <select
-                className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                onChange={handlePaymentType}
-              >
-                <option value={null}>Seleccione tipo de pago</option>
-                <option value="1">Crédito</option>
-                <option value="2">Efectivo</option>
-              </select>
+              <div className="space-y-2">
+                <div className="flex flex-col space-y-3">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
+                      name="paymentType"
+                      value="1"
+                      onChange={handlePaymentType}
+                    />
+                    <span className="ml-2 text-zinc-700">Crédito</span>
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
+                      name="paymentType"
+                      value="2"
+                      onChange={handlePaymentType}
+                    />
+                    <span className="ml-2 text-zinc-700">Al Contado</span>
+                  </label>
+                </div>
+              </div>
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-red-500 mb-1">
+                Medio de Pago *
+              </label>
+              <select className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                <option value={null}>Seleccione un medio de Pago</option>
+                <option value="1">Yape - Plin</option>
+                <option value="2">Transferencia</option>
+                <option value="3">Efectivo</option>
+              </select>
+            </div>
             <p className="text-lg font-semibold text-gray-800">
               COSTO: S./ {cost}
             </p>
@@ -424,12 +468,12 @@ export default function Sales() {
               <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                 S./ {sale.price}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex align-center">
                 <button
-                  className="text-white bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm mr-2"
+                  className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-sm font-medium transition-colors shadow-sm mr-2 cursor-pointer"
                   onClick={() => handleGeneratePDF(sale)}
                 >
-                  Ticket
+                  <FaPrint />
                 </button>
                 <button className="text-white bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors shadow-sm">
                   Editar
