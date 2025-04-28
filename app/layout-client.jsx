@@ -27,15 +27,16 @@ function AuthenticatedLayout({ children }) {
     <>
       <div className="flex flex-1">
         {(!isHomePage || isAuthenticated) && (
-          <div className="fixed inset-y-0 left-0">
+          <div className="fixed inset-y-0 left-0 z-10">
             <Sidebar sidebarStatus={sidebarStatus} />
           </div>
         )}
+
         <main
           className={`flex-1 ${
             !isHomePage || isAuthenticated
               ? sidebarStatus
-                ? "ml-[16.6%]"
+                ? "pl-64" // Ajusta según el ancho de tu sidebar
                 : ""
               : ""
           }`}

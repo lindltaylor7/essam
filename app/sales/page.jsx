@@ -21,7 +21,7 @@ export default function Sales() {
 
   const [sales, setSales] = useState([]);
 
-  const [units, setUnits] = useState([]);
+  const [servicesFiltered, setServicesFiltered] = useState([]);
 
   const [dinerDni, setDinerDni] = useState("");
 
@@ -151,15 +151,6 @@ export default function Sales() {
       });
 
     axiosInstance
-      .get("/units")
-      .then((response) => {
-        setUnits(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los unidades:", error);
-      });
-
-    axiosInstance
       .get("/areas")
       .then((result) => {
         setAreas(result.data);
@@ -215,6 +206,7 @@ export default function Sales() {
     const serviceSelected = services.find(
       (service) => service._id === serviceId
     );
+    console.log(serviceSelected);
     setSelectedService(serviceSelected);
     setCost(serviceSelected.prices.withTax);
   };
@@ -259,6 +251,28 @@ export default function Sales() {
     return formattedDate;
   };
 
+  const handleQuantity = (e) => {
+    const quantity = e.target.value;
+    const totalCost = selectedService.prices.withTax * quantity;
+    setCost(totalCost);
+  };
+
+  const searchService = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    if (searchTerm !== "") {
+      const filteredServices = services.filter(
+        (service) =>
+          service.name.toLowerCase().includes(searchTerm) ||
+          service.code.toLowerCase().includes(searchTerm)
+      );
+      setServicesFiltered(filteredServices);
+    } else {
+      setServicesFiltered([]);
+    }
+  };
+
+  const selectService = (service) => () => {};
+
   return (
     <>
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
@@ -271,7 +285,37 @@ export default function Sales() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Columna izquierda */}
+
           <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-red-500 mb-1">
+                Tipo de pago *
+              </label>
+              <div className="space-y-2">
+                <div className="flex flex-row items-center space-y-3">
+                  <label className="inline-flex items-center mb-0">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
+                      name="paymentType"
+                      value="1"
+                      onChange={handlePaymentType}
+                    />
+                    <span className="ml-2 text-zinc-700">Crédito</span>
+                  </label>
+                  <label className="inline-flex items-center ms-2">
+                    <input
+                      type="radio"
+                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
+                      name="paymentType"
+                      value="2"
+                      onChange={handlePaymentType}
+                    />
+                    <span className="ml-2 text-zinc-700">Al Contado</span>
+                  </label>
+                </div>
+              </div>
+            </div>
             <label className="block text-sm font-medium text-red-500 mb-1">
               Fecha *
             </label>
@@ -332,8 +376,35 @@ export default function Sales() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-red-500 mb-1">
+                Forma de Pago *
+              </label>
+              <select className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                <option value={null}>Seleccione una forma de pago</option>
+                <option value="1">Yape - Plin</option>
+                <option value="2">Transferencia</option>
+                <option value="3">Efectivo</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-red-500 mb-1">
                 Servicio *
               </label>
+              <input
+                type="text"
+                className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                onKeyUp={searchService}
+              />
+              <div className="w-full border border-zinc-300 rounded-md">
+                {servicesFiltered?.map((service) => (
+                  <p
+                    key={service._id}
+                    className="hover:bg-blue-500 hover:text-white p-2 cursor-pointer"
+                    onClick={selectService(service)}
+                  >
+                    {service.code} - {service.name}
+                  </p>
+                ))}
+              </div>
               <select
                 className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 onChange={handleService}
@@ -341,7 +412,7 @@ export default function Sales() {
                 <option value={null}>Seleccione un servicio</option>
                 {services?.map((service) => (
                   <option key={service._id} value={service._id}>
-                    {service.name}
+                    {service.code} - {service.name}
                   </option>
                 ))}
               </select>
@@ -352,50 +423,11 @@ export default function Sales() {
                   type="number"
                   className="flex-1 p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent w-full"
                   placeholder="Cantidad"
+                  onChange={handleQuantity}
                 />
               </p>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-red-500 mb-1">
-                Tipo de pago *
-              </label>
-              <div className="space-y-2">
-                <div className="flex flex-col space-y-3">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
-                      name="paymentType"
-                      value="1"
-                      onChange={handlePaymentType}
-                    />
-                    <span className="ml-2 text-zinc-700">Crédito</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      className="form-radio h-4 w-4 text-red-600 border-zinc-300 focus:ring-2 focus:ring-red-500"
-                      name="paymentType"
-                      value="2"
-                      onChange={handlePaymentType}
-                    />
-                    <span className="ml-2 text-zinc-700">Al Contado</span>
-                  </label>
-                </div>
-              </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-red-500 mb-1">
-                Medio de Pago *
-              </label>
-              <select className="w-full p-2.5 border border-zinc-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent">
-                <option value={null}>Seleccione un medio de Pago</option>
-                <option value="1">Yape - Plin</option>
-                <option value="2">Transferencia</option>
-                <option value="3">Efectivo</option>
-              </select>
-            </div>
             <p className="text-lg font-semibold text-gray-800">
               COSTO: S./ {cost}
             </p>

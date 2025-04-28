@@ -34,19 +34,22 @@ export default function Areas() {
     return async () => {
       try {
         // Enviar los datos del formulario al servidor en el puerto 4000
-        const response = await axiosInstance.delete(`/areas/${id}`);
+        const response = await axiosInstance.delete(`/services/${id}`);
 
         // Si la respuesta es exitosa, redirigir a /organizations
         if (response.status === 204) {
-          console.log(response);
-          setAreas(areas.filter((area) => area._id !== id));
+          setServices(services.filter((service) => service._id !== id));
         }
       } catch (error) {
         // Manejar errores (por ejemplo, credenciales incorrectas)
         console.error("Error al enviar los datos:", error);
-        alert("Error al eliminar area.");
+        alert("Error al eliminar servicio.");
       }
     };
+  };
+
+  const showServiceData = (service) => {
+    console.log(service);
   };
 
   useEffect(() => {
@@ -92,6 +95,12 @@ export default function Areas() {
             {...register("description")}
           />
           <input
+            type="text"
+            className="p-2 my-2 bg-zinc-500 rounded"
+            placeholder="Código de Servicio"
+            {...register("code")}
+          />
+          <input
             type="submit"
             className="bg-[#3B5998] text-white px-4 py-2 mt-4 rounded-md"
             value="Registrar Servicios"
@@ -105,6 +114,9 @@ export default function Areas() {
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Descripción
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Código de Servicio
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Opciones
@@ -121,7 +133,13 @@ export default function Areas() {
                   {service.description}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-md">
+                  {service.code}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-md"
+                    onClick={() => showServiceData(service)}
+                  >
                     Editar
                   </button>
                   <button

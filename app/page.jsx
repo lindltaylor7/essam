@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAppAuth } from "./context";
 import Image from "next/image";
+import Chat from "./components/Chat";
 
 export default function Home() {
   const { user, setUser, getUserData, isAuthenticated } = useAppAuth();
@@ -19,11 +20,11 @@ export default function Home() {
         process.env.NEXT_PUBLIC_API_URL + "/login",
         data
       );
-
+      console.log("response", response);
       // Si la respuesta es exitosa, redirigir a /organizations
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        getUserData(response.data.user._id);
+        getUserData(response.data.id);
       }
     } catch (error) {
       // Manejar errores (por ejemplo, credenciales incorrectas)
@@ -44,7 +45,9 @@ export default function Home() {
             <h1 className="mt-2 text-3xl sm:text-4xl font-bold text-gray-800">
               Hola {user?.name} <span className="text-red-500">🎉</span>
             </h1>
-            <p className="mt-3 text-xl text-gray-600">{user?.role[0]?.name}</p>
+            <p className="mt-3 text-xl text-gray-600">
+              {user?.role && user.role[0]?.name}
+            </p>
             <div className="mt-6">
               <span className="inline-block bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full">
                 Último acceso: {new Date().toLocaleDateString()}

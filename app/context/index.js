@@ -68,7 +68,7 @@ export function AuthProvider({ children }) {
     }, []); // Solo se ejecuta al montar
 
     // Efecto para manejar redirecciones post-autenticación
-    useEffect(() => {
+    /* useEffect(() => {
         if (isLoading) return; // Esperar a que termine la carga
 
         if (isAuthenticated) {
@@ -84,7 +84,7 @@ export function AuthProvider({ children }) {
         } else if (pathname !== '/') {
             router.push('/'); // Redirigir no autenticados a login
         }
-    }, [isAuthenticated, isLoading, pathname]);
+    }, [isAuthenticated, isLoading, pathname]); */
 
     // Mostrar carga mientras se verifica
     if (isLoading) {
