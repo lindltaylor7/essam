@@ -3351,7 +3351,7 @@ Object.defineProperty(exports, "findSourceMapURL", ({
         return findSourceMapURL;
     }
 }));
-const basePath =  false || '';
+const basePath = "/_next" || 0;
 const pathname = "" + basePath + "/__nextjs_source-map";
 const findSourceMapURL =  false ? 0 : undefined;
 if ((typeof exports.default === 'function' || typeof exports.default === 'object' && exports.default !== null) && typeof exports.default.__esModule === 'undefined') {
@@ -4923,7 +4923,7 @@ Object.defineProperty(exports, "removeBasePath", ({
     }
 }));
 const _hasbasepath = __webpack_require__(87102);
-const basePath =  false || '';
+const basePath = "/_next" || 0;
 function removeBasePath(path) {
     if (false) {}
     // Can't trim the basePath if it has zero length!
@@ -10579,7 +10579,7 @@ Object.defineProperty(exports, "addBasePath", ({
 }));
 const _addpathprefix = __webpack_require__(84074);
 const _normalizetrailingslash = __webpack_require__(214);
-const basePath =  false || '';
+const basePath = "/_next" || 0;
 function addBasePath(path, required) {
     return (0, _normalizetrailingslash.normalizePathTrailingSlash)( false ? 0 : (0, _addpathprefix.addPathPrefix)(path, basePath));
 }
@@ -10763,7 +10763,7 @@ Object.defineProperty(exports, "hasBasePath", ({
     }
 }));
 const _pathhasprefix = __webpack_require__(91747);
-const basePath =  false || '';
+const basePath = "/_next" || 0;
 function hasBasePath(path) {
     return (0, _pathhasprefix.pathHasPrefix)(path, basePath);
 }

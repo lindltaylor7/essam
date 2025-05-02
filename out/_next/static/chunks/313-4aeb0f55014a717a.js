@@ -1107,7 +1107,7 @@ function formatWithValidation(url) {
 /***/ ((module) => {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"style":{"fontFamily":"'Poppins', 'Poppins Fallback'"},"className":"__className_5edeb5","variable":"__variable_5edeb5"};
+module.exports = {"style":{"fontFamily":"'Poppins', 'Poppins Fallback'"},"className":"__className_b8be9a","variable":"__variable_b8be9a"};
 
 /***/ }),
 
