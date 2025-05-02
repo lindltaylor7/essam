@@ -5,6 +5,7 @@ import axiosInstance from "../utils/axiosInstance";
 
 export default function Divisions() {
   const [dishes, setDishes] = useState([]);
+  const [dishSelected, setDishSelected] = useState({});
   const [searchWord, setSearchword] = useState("");
 
   const searchDish = (e) => {
@@ -17,6 +18,10 @@ export default function Divisions() {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const selectDish = (dish) => {
+    setDishSelected(dish);
   };
 
   return (
@@ -39,17 +44,24 @@ export default function Divisions() {
             <div className="w-full border border-zinc-300 rounded-md">
               {dishes?.map((dish) => (
                 <p
-                  key={dish._id}
+                  key={dish.id}
                   className="hover:bg-blue-500 hover:text-white p-2 cursor-pointer"
+                  onClick={() => selectDish(dish)}
                 >
-                  {dish.id} - {dish.nombre}
+                  {dish.id} - {dish.nombre} -{dish.base?.nombre}
                 </p>
               ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="space-y-4"></div>
+      <div className="space-y-4">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-4">
+          {dishSelected?.inputs?.map((input) => (
+            <p key={input.id}>{input.nombre}</p>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

@@ -144,7 +144,7 @@ export default function Home() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold text-red-600 mb-2">Essam</h1>
-            <p className="text-gray-600">Sistema de gestión de comedores</p>
+            <p className="text-gray-600">Sistema de gestión</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
